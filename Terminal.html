@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #0a0a0a; color: #00ff41; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 20px; height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .terminal-card { border: 1px solid #333; padding: 25px; border-radius: 8px; background: #000; width: 100%; max-width: 400px; box-shadow: 0 0 15px rgba(0,255,65,0.15); }
+        .hidden { display: none; }
+        input { width: 100%; padding: 10px; margin: 15px 0; background: #0a0a0a; border: 1px solid #00ff41; color: #fff; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #00ff41; color: #000; border: none; cursor: pointer; font-weight: bold; }
+        .progress-bar-bg { background: #111; height: 8px; margin: 15px 0; border-radius: 4px; overflow: hidden; border: 1px solid #333; }
+        #bar { height: 100%; width: 0%; background: #00ff41; transition: width 0.3s; }
+        .notice-box { border: 1px solid #b8860b; color: #ffcc00; padding: 15px; margin-top: 15px; font-size: 0.8em; background: #110d00; }
+    </style>
+</head>
+<body>
+
+    <div class="terminal-card">
+        <div id="input-screen">
+            <h3>> ENTER_RECIPIENT_ADDRESS</h3>
+            <input type="text" id="address" placeholder="0x...">
+            <button onclick="startTransaction()">CONFIRM & INITIATE</button>
+        </div>
+
+        <div id="processing-screen" class="hidden">
+            <h3>> SYSTEM_STATUS: PROCESSING</h3>
+            <div class="progress-bar-bg"><div id="bar"></div></div>
+            <p>> Network Propagation: Pending...</p>
+        </div>
+
+        <div id="details-screen" class="hidden">
+            <h3>> TRANSACTION_BROADCAST_SUCCESS</h3>
+            <p>SENDER: <span id="display-address"></span></p>
+            <p>ASSET: <span id="display-amount"></span></p>
+            <div class="notice-box" id="notice-text">
+                <strong>PROPAGATION NOTICE:</strong> Target node congestion detected. 0.10 ETH is required to finalize current queue and release assets.
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        const CONFIG = {
+            amount: "59,000 USDT",
+            notice: "PROPAGATION NOTICE: Target node congestion detected. 0.10 ETH is required to finalize current queue and release assets."
+        };
+
+        function startTransaction() {
+            const addr = document.getElementById('address').value;
+            if(!addr) return alert("Please enter an address");
+            
+            document.getElementById('display-address').innerText = addr;
+            document.getElementById('display-amount').innerText = CONFIG.amount;
+            
+            document.getElementById('input-screen').classList.add('hidden');
+            document.getElementById('processing-screen').classList.remove('hidden');
+
+            let width = 0;
+            let interval = setInterval(() => {
+                if (width >= 80) {
+                    clearInterval(interval);
+                    document.getElementById('processing-screen').classList.add('hidden');
+                    document.getElementById('details-screen').classList.remove('hidden');
+                } else {
+                    width++;
+                    document.getElementById('bar').style.width = width + '%';
+                }
+            }, 50);
+        }
+    </script>
+</body>
+</html>
