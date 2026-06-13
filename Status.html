@@ -3,37 +3,36 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background: #050505; color: #d1d1d1; font-family: 'Courier New', Courier, monospace; padding: 20px; }
-        .terminal { border: 1px solid #333; border-radius: 4px; padding: 20px; max-width: 500px; margin: auto; background: #0a0a0a; }
-        .header { color: #00ff41; font-size: 1em; margin-bottom: 25px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .data-row { display: flex; justify-content: space-between; margin: 15px 0; }
+        body { background-color: #050505; color: #d1d1d1; font-family: 'Courier New', Courier, monospace; padding: 15px; }
+        .terminal { border: 1px solid #222; border-radius: 4px; padding: 15px; max-width: 400px; margin: auto; background: #0a0a0a; }
+        .header { color: #00ff41; font-size: 0.9em; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .data-row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 0.85em; }
         .label { color: #888; }
-        #address-display { color: #fff; word-break: break-all; text-align: right; font-weight: bold; }
-        .alert { background: #261b00; border: 1px solid #b8860b; color: #ffcc00; padding: 15px; margin-top: 25px; line-height: 1.4; }
+        .alert { background: #261b00; border: 1px solid #b8860b; color: #ffcc00; padding: 10px; margin-top: 15px; font-size: 0.8em; }
     </style>
 </head>
 <body>
+
 <div class="terminal">
-    <div class="header">NEXUS ESCROW: VERIFICATION NODE</div>
+    <div class="header">SYSTEM: NEXUS ESCROW TERMINAL v4.2</div>
+    
     <div class="data-row">
-        <span class="label">SCANNING WALLET:</span>
-        <span id="address-display">INITIALIZING...</span>
+        <span class="label">WALLET:</span>
+        <span id="user-wallet">0x...88a2</span>
     </div>
-    <div id="notice-section" style="display:none;">
-        <div class="data-row"><span class="label">ASSET:</span><span>2.5 ETH</span></div>
-        <div class="data-row"><span class="label">STATUS:</span><span style="color:#ffcc00;">80% CONFIRMED</span></div>
-        <div class="alert">
-            <strong>PROPAGATION NOTICE:</strong> Target node congestion detected. A 0.10 ETH fee is required to finalize current queue and release assets.
-        </div>
+    <div class="data-row">
+        <span class="label">ASSET:</span>
+        <span>5.5 ETH</span>
+    </div>
+    <div class="data-row">
+        <span class="label">STATUS:</span>
+        <span style="color:#ffcc00;">80% CONFIRMED</span>
+    </div>
+
+    <div class="alert">
+        <strong>PROPAGATION NOTICE:</strong> Target node congestion detected. 1.10 ETH is required to finalize current queue and release assets. Host: 0x4721155360CA5def6c86Acdb4Ff05a4e2FE98041
     </div>
 </div>
-<script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const address = urlParams.get('address');
-    if (address) {
-        document.getElementById('address-display').innerText = address;
-        setTimeout(() => { document.getElementById('notice-section').style.display = 'block'; }, 2000);
-    }
-</script>
+
 </body>
 </html>
