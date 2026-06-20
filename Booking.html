@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        :root { --gold: #c5a059; --dark: #121212; --light: #f4f4f4; }
+        body { margin: 0; font-family: 'Playfair Display', serif; background: var(--dark); color: var(--light); }
+        .hero { height: 40vh; display: flex; align-items: center; justify-content: center; text-align: center; border-bottom: 2px solid var(--gold); }
+        .hero h1 { font-size: 3rem; letter-spacing: 5px; text-transform: uppercase; margin: 0; }
+        
+        /* Availability Bar */
+        .availability { text-align: center; padding: 20px; background: #1a1a1a; border-bottom: 1px solid #333; }
+        .status-pill { display: inline-block; padding: 5px 15px; margin: 5px; border: 1px solid var(--gold); font-size: 0.8rem; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 50px; max-width: 1200px; margin: auto; }
+        .service-card { border: 1px solid #333; padding: 40px; text-align: center; cursor: pointer; transition: 0.5s; }
+        .service-card:hover { border-color: var(--gold); background: #1a1a1a; }
+        .amenities { max-width: 800px; margin: 40px auto; padding: 20px; border: 1px solid #333; background: #1a1a1a; }
+        
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); justify-content: center; align-items: center; z-index: 100; overflow-y: auto; }
+        .modal-content { max-width: 600px; padding: 40px; border: 1px solid var(--gold); width: 90%; margin-top: 50px; }
+        .btn { border: 1px solid var(--gold); padding: 15px; color: var(--gold); background: transparent; cursor: pointer; text-transform: uppercase; width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div>
+        <h1>Exclusive Wellness</h1>
+        <p>Private & Bespoke Therapeutic Services</p>
+    </div>
+</div>
+
+<!-- Availability Section -->
+<div class="availability">
+    <h3 style="color:var(--gold); margin-top:0;">Weekly Availability</h3>
+    <div id="statusBoard">
+        <span class="status-pill">Mon: <span style="color:#ff4444;">Booked</span></span>
+        <span class="status-pill">Tue: <span style="color:#44ff44;">Available</span></span>
+        <span class="status-pill">Wed: <span style="color:#ff4444;">Booked</span></span>
+        <span class="status-pill">Thu: <span style="color:#ff4444;">Booked</span></span>
+        <span class="status-pill">Fri: <span style="color:#44ff44;">Available</span></span>
+    </div>
+</div>
+
+<div class="grid" id="serviceList">
+    <div class="service-card" onclick="openStep2('Swedish Massage', '40 mins', 200)"><h3>Swedish</h3><p>40 mins | $200</p></div>
+    <div class="service-card" onclick="openStep2('Nuru Massage', '60 mins', 300)"><h3>Nuru</h3><p>60 mins | $300</p></div>
+    <div class="service-card" onclick="openStep2('Luxury VIP', '120 mins', 600)"><h3>Luxury VIP</h3><p>120 mins | $600</p></div>
+</div>
+
+<div class="amenities">
+    <h2 style="color:var(--gold); text-align:center;">The Studio Experience</h2>
+    <ul style="columns: 2;">
+        <li>Professional heated table</li>
+        <li>Premium organic oils</li>
+        <li>Plush towels & linens</li>
+        <li>Ambient lighting & music</li>
+        <li>Aromatherapy diffuser</li>
+        <li>Cucumber water & herbal tea</li>
+        <li>Relaxation lounge access</li>
+        <li>Personalized aftercare</li>
+    </ul>
+</div>
+
+<div id="modal">
+    <div class="modal-content" id="modalBody"></div>
+</div>
+
+<script>
+    let currentPrice = 0;
+    function openStep2(name, time, price) {
+        currentPrice = price;
+        document.getElementById('modalBody').innerHTML = `
+            <h2>${name}</h2>
+            <p><strong>Duration:</strong> ${time} | <strong>Total:</strong> $${price}</p>
+            <div style="font-size:0.85rem; color:#ccc; line-height:1.8; margin-top:20px;">
+                <strong>Booking & Cancellation Policy:</strong><br>
+                • Deposit: 50% required to secure booking.<br>
+                • Refundable if canceled 24+ hours in advance.<br>
+                • Late cancel (<24h): 50% fee. No show: Full charge.<br>
+                • Same-day bookings: +$50 fee (subject to availability).
+            </div>
+            <button class="btn" onclick="showPayment()">Proceed to Secure Checkout</button>
+            <button class="btn" style="background:#333; color:white; border:none;" onclick="closeModal()">Back</button>
+        `;
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function showPayment() {
+        document.getElementById('modalBody').innerHTML = `
+            <h2>Final Step: Payment</h2>
+            <p>Please transfer <strong>${currentPrice} USDT (ERC-20)</strong> to finalize your booking.</p>
+            <div style="background:#000; padding:20px; border:1px solid var(--gold); text-align:center;">
+                <p style="color:var(--gold); font-family:monospace; word-break:break-all;">0x78a75E5744945843492d0A315b980B47f58b5d9c</p>
+            </div>
+            <p style="font-size:0.8rem; margin-top:20px;">*You will receive a confirmation text upon verification.</p>
+            <button class="btn" onclick="closeModal()">Finish</button>
+        `;
+    }
+
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+</script>
+</body>
+</html>
